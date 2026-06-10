@@ -302,26 +302,30 @@
                                            (STV $B)
                                            (STV $C) $T1 $T2)) (empty)))
 
+;NOTE: predicate application uses (Pred ...), not (Predicate ...): on the
+;PeTTa runtime `Predicate` is a reserved Prolog-FFI builtin (src/metta.pl)
+;that reduces (Predicate <atom>) to empty and poisons derivation, so any
+;term wrapping it must use a non-colliding constructor name.
 ;Usage of inheritance for predicates
 ;unary arg
-(= (|- ((Evaluation (Predicate $x)
+(= (|- ((Evaluation (Pred $x)
                     (List (Concept $C))) $T1)
        ((Inheritance (Concept $S) (Concept $C)) $T2))
-   ((Evaluation (Predicate $x)
+   ((Evaluation (Pred $x)
                 (List (Concept $S))) (Truth_ModusPonens $T1 $T2)))
 
 ;binary arg1
-(= (|- ((Evaluation (Predicate $x)
+(= (|- ((Evaluation (Pred $x)
                     (List (Concept $C1) (Concept $C2))) $T1)
        ((Inheritance (Concept $S) (Concept $C1)) $T2))
-   ((Evaluation (Predicate $x)
+   ((Evaluation (Pred $x)
                 (List (Concept $S) (Concept $C2))) (Truth_ModusPonens $T1 $T2)))
 
 ;binary arg2
-(= (|- ((Evaluation (Predicate $x)
+(= (|- ((Evaluation (Pred $x)
                     (List (Concept $C1) (Concept $C2))) $T1)
        ((Inheritance (Concept $S) (Concept $C2)) $T2))
-   ((Evaluation (Predicate $x)
+   ((Evaluation (Pred $x)
                 (List (Concept $C1) (Concept $S))) (Truth_ModusPonens $T1 $T2)))
 
 ; negation elimination rule (introduction now handled by Translator), see https://github.com/opencog/pln/blob/master/opencog/pln/rules/wip/not-elimination.scm#L1-L8
